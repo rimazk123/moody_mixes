@@ -4,7 +4,7 @@ import json
 from vision import get_face_emotions
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
-
+from query import get_playlist
 
 app = Flask(__name__)
 DOWNLOAD_DIR = './images'
@@ -24,8 +24,11 @@ def mms_reply():
 			f.write(requests.get(image_url).content)
 
 		res = get_face_emotions(filename)
-		print(json.dumps(res))
-		resp.message(json.dumps(res))
+		#print(json.dumps(res))
+
+		if res["joy"] > 1:
+			resp.message(get_playlist("mood:joy"))
+
 	else:
 		resp.message("Try sending a picture message.")
 
