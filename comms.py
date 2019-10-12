@@ -9,6 +9,15 @@ from query import get_playlist
 app = Flask(__name__)
 DOWNLOAD_DIR = './images'
 
+search_map = {
+	'sorrow' : 'sad boi hours',
+	'joy' : 'joyful songs',
+	'anger' : 'Mood: Anger',
+	'surprise' : 'haydn symphony 94' 
+}
+
+
+
 @app.route("/sms", methods=['GET', 'POST'])
 def mms_reply():
 	"""Respond to incoming with a simple text message."""
@@ -26,8 +35,22 @@ def mms_reply():
 		res = get_face_emotions(filename)
 		#print(json.dumps(res))
 
-		if res["joy"] > 1:
-			resp.message(get_playlist("mood:joy"))
+		maxValue = list(res.values())[0]
+		emo = list(res.keys())[0]
+
+		for emotion in res.keys():
+			if res[emotion] > maxValue:
+				emo = emotion
+				maxValue = res[emotion]
+
+		print(emo)
+
+		search_query = search_map[emo]
+		resp.message(get_playlist(search_query))
+
+		# if res["joy"] > 1:
+		# 	resp.message(get_playlist("mood:joy"))
+		
 
 	else:
 		resp.message("Try sending a picture message.")
@@ -35,6 +58,8 @@ def mms_reply():
 	
 	
 	return str(resp)
+
+
 
 
 if __name__ == "__main__":

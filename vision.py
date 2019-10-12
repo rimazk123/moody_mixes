@@ -23,7 +23,7 @@ def get_face_emotions(fileName):
 
     emotions['joy'] = face[0].joy_likelihood
     emotions['anger'] = face[0].anger_likelihood
-    emotions['suprise'] = face[0].surprise_likelihood
+    emotions['surprise'] = face[0].surprise_likelihood
     emotions['sorrow'] = face[0].sorrow_likelihood
     
 
