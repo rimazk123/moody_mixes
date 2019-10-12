@@ -1,5 +1,7 @@
 # Download the helper library from https://www.twilio.com/docs/python/install
 import requests
+import json
+from vision import get_face_emotions
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 
@@ -11,6 +13,7 @@ DOWNLOAD_DIR = './images'
 def mms_reply():
 	"""Respond to incoming with a simple text message."""
 	resp = MessagingResponse()
+	res = {}
 
 	if request.values['NumMedia'] != '0':
 
@@ -20,10 +23,14 @@ def mms_reply():
 			image_url = request.values['MediaUrl0']
 			f.write(requests.get(image_url).content)
 
-		resp.message("Thanks for the image!")
+		res = get_face_emotions(filename)
+		print(json.dumps(res))
+		resp.message(json.dumps(res))
 	else:
 		resp.message("Try sending a picture message.")
 
+	
+	
 	return str(resp)
 
 

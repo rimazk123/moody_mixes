@@ -1,11 +1,46 @@
 from google.cloud import vision
 from google.cloud.vision import types
-import base64
 import io
 import os
 
+likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
 
-client = vision.ImageAnnotatorClient()
+
+
+def get_face_emotions(file):
+    emotions = {}
+
+    path = "./images/" + file
+    client = vision.ImageAnnotatorClient()
+    #file_name = os.path.abspath(path)
+
+    with io.open(path, 'rb') as image_file:
+        content = image_file.read()
+
+    image = types.Image(content = content)
+
+    response = client.face_detection(image = image)
+    face = response.face_annotations
+
+    emotions['joy'] = face[0].joy_likelihood
+    emotions['anger'] = face[0].anger_likelihood
+    emotions['suprise'] = face[0].surprise_likelihood
+    emotions['sorrow'] = face[0].sorrow_likelihood
+    
+
+    print(emotions)
+    return emotions
+    
+    # for face in faces:
+    #     print(face.anger_likelihood)
+    #     print(face.joy_likelihood)
+    #     #print(anger.format(likelihood_name[face.anger_likelihood]))
+    #     print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
+    #     print('joy: {}'.format(likelihood_name[face.joy_likelihood]))
+    #     print('surprise: {}'.format(likelihood_name[face.surprise_likelihood]))
+    #     print('sorrow: {}' .format(likelihood_name[face.sorrow_likelihood]))
+
+
 
 # response = client.face_detection({
 #    'source': {'image_uri': 'https://www.incimages.com/uploaded_files/image/970x450/laugh1_24055.jpg'},
@@ -28,34 +63,34 @@ client = vision.ImageAnnotatorClient()
 #     print('\tg: {}'.format(color.color.green))
 #     print('\tb: {}'.format(color.color.blue))
 
-file_name = os.path.abspath('happy.png')
+# file_name = os.path.abspath('./images/MM95820ab7d32ee281bff8f8b9af213f85.png')
 
-with io.open(file_name, 'rb') as image_file:
-    content = image_file.read()
+# with io.open(file_name, 'rb') as image_file:
+#     content = image_file.read()
 
-image = types.Image(content = content)
-
-
+# image = types.Image(content = content)
 
 
 
-response = client.face_detection(image = image)
-print(response)
-
-faces = response.face_annotations
-
-likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
-                       'LIKELY', 'VERY_LIKELY')
 
 
-faces = response.face_annotations
+# response = client.face_detection(image = image)
+# print(response)
 
-for face in faces:
-        print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
-        print('joy: {}'.format(likelihood_name[face.joy_likelihood]))
-        print('surprise: {}'.format(likelihood_name[face.surprise_likelihood]))
+# faces = response.face_annotations
 
-        # vertices = (['({},{})'.format(vertex.x, vertex.y)
-        #             for vertex in face.bounding_poly.vertices])
+# likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE',
+#                        'LIKELY', 'VERY_LIKELY')
+
+
+# faces = response.face_annotations
+
+# for face in faces:
+#         print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
+#         print('joy: {}'.format(likelihood_name[face.joy_likelihood]))
+#         print('surprise: {}'.format(likelihood_name[face.surprise_likelihood]))
+
+#         # vertices = (['({},{})'.format(vertex.x, vertex.y)
+#         #             for vertex in face.bounding_poly.vertices])
 
         # print('face bounds: {}'.format(','.join(vertices)))
