@@ -8,7 +8,12 @@ likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY',
 
 
 def get_face_emotions(fileName):
-    emotions = {}
+    emotions = {
+        'joy': 0,
+        'anger': 0,
+        'surprise': 0,
+        'sorrow': 0
+    }
 
     path = "./images/" + fileName
     client = vision.ImageAnnotatorClient()
@@ -19,17 +24,18 @@ def get_face_emotions(fileName):
     image = types.Image(content = content)
 
     response = client.face_detection(image = image)
-    face = response.face_annotations
+    faces = response.face_annotations
 
-    emotions['joy'] = face[0].joy_likelihood
-    emotions['anger'] = face[0].anger_likelihood
-    emotions['surprise'] = face[0].surprise_likelihood
-    emotions['sorrow'] = face[0].sorrow_likelihood
+    for face in faces:
+        emotions['joy'] += face.joy_likelihood
+        emotions['anger'] += face.anger_likelihood
+        emotions['surprise'] += face.surprise_likelihood
+        emotions['sorrow'] += face.sorrow_likelihood
     
-
     #print(emotions)
 
     # delete image after we use it.
     os.remove(path)
+    print(emotions)
 
     return emotions
