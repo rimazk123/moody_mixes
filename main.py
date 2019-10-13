@@ -6,6 +6,7 @@ from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 from query import get_playlist
 import random
+import base64
 
 app = Flask(__name__)
 DOWNLOAD_DIR = './images'
@@ -28,12 +29,12 @@ def mms_reply():
 	if request.values['NumMedia'] != '0':
 
 		# Use the message SID as a filename.
-		filename = request.values['MessageSid']  + '.png'
-		with open('{}/{}'.format(DOWNLOAD_DIR, filename), 'wb') as f:
-			image_url = request.values['MediaUrl0']
-			f.write(requests.get(image_url).content)
-
-		res = get_face_emotions(filename)
+		# filename = request.values['MessageSid']  + '.png'
+		# with open('{}/{}'.format(DOWNLOAD_DIR, filename), 'wb') as f:
+		image_url = request.values['MediaUrl0']
+		# 	f.write(requests.get(image_url).content)
+		data = base64.b64encode(requests.get(image_url).content)
+		res = get_face_emotions(data)
 		#print(json.dumps(res))
 
 		maxValue = list(res.values())[0]
@@ -61,6 +62,7 @@ def mms_reply():
 	
 	
 	return str(resp)
+
 
 
 if __name__ == "__main__":
