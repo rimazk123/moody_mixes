@@ -17,7 +17,7 @@ Returns a random playlist from set of 10, based on the search terms
 def get_playlist(searchQuery):
     results = spotify.search(q=searchQuery, type='playlist', limit=10)
 
-    playlistIndex = random.randint(0, len(results['playlists']['items']))
+    playlistIndex = random.randint(0, len(results['playlists']['items']) - 1)
 
     print(results['playlists']['items'][playlistIndex]['external_urls']['spotify'])
 

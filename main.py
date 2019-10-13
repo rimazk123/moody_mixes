@@ -5,15 +5,16 @@ from vision import get_face_emotions
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 from query import get_playlist
+import random
 
 app = Flask(__name__)
 DOWNLOAD_DIR = './images'
 
 search_map = {
-	'sorrow' : 'sad boi hours',
-	'joy' : 'joyful songs',
-	'anger' : 'Mood: Anger',
-	'surprise' : 'haydn symphony 94' 
+	'sorrow' : ['sad boi hours', 'feeling low', 'fuck life'],
+	'joy' : ['joyful songs', 'bangers', 'hype up'],
+	'anger' : ['Mood: Anger', 'fuck off'],
+	'surprise' : ['haydn symphony 94']
 }
 
 
@@ -43,13 +44,15 @@ def mms_reply():
 				emo = emotion
 				maxValue = res[emotion]
 
-		print(emo)
 
-		search_query = search_map[emo]
+		search_list = search_map[emo][:]
+
+		num = random.randint(0, len(search_list))
+
+		print(search_list, num)
+		search_query = search_list[num]
+
 		resp.message(get_playlist(search_query))
-
-		# if res["joy"] > 1:
-		# 	resp.message(get_playlist("mood:joy"))
 		
 
 	else:
@@ -58,8 +61,6 @@ def mms_reply():
 	
 	
 	return str(resp)
-
-
 
 
 if __name__ == "__main__":
