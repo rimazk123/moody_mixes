@@ -33,7 +33,7 @@ def mms_reply():
 		# with open('{}/{}'.format(DOWNLOAD_DIR, filename), 'wb') as f:
 		image_url = request.values['MediaUrl0']
 		# 	f.write(requests.get(image_url).content)
-		data = base64.b64encode(requests.get(image_url).content)
+		data = requests.get(image_url).content
 		res = get_face_emotions(data)
 		#print(json.dumps(res))
 
