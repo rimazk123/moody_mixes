@@ -47,7 +47,7 @@ def mms_reply():
 
 		search_list = search_map[emo][:]
 
-		num = random.randint(0, len(search_list))
+		num = random.randint(0, len(search_list) - 1)
 
 		print(search_list, num)
 		search_query = search_list[num]
