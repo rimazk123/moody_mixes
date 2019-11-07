@@ -5,8 +5,8 @@ import json
 import random
 
 credentials = oauth2.SpotifyClientCredentials(
-        client_id='15e7265b21d14a6eadbff697e2d4fa6b',
-        client_secret='f6d462e641f1424f973eb80e01c9d46b')
+        client_id='YOUR_ID_HERE',
+        client_secret='YOUR_SECRET_HERE')
 
 token = credentials.get_access_token()
 spotify = spotipy.Spotify(auth=token)
@@ -26,12 +26,11 @@ def get_playlist(searchQuery):
         # re-authenticate when token expires
         token = credentials.get_access_token()
         spotify = spotipy.Spotify(auth=token)
-
+        
+        # Get top 10 results
         results = spotify.search(q=searchQuery, type='playlist', limit=10)
         
-
-    # results = spotify.search(q=searchQuery, type='playlist', limit=10)
-
+    # Pick a result
     playlistIndex = random.randint(0, len(results['playlists']['items']) - 1)
 
     print(results['playlists']['items'][playlistIndex]['external_urls']['spotify'])
