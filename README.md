@@ -6,3 +6,8 @@ account. Then run main.py.
 
 ## Demonstration
 
+With an angry face:
+![Screenshot](anger.jpg)
+
+With a sad face:
+![Screenshot](sad.jpg)
