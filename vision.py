@@ -15,27 +15,22 @@ def get_face_emotions(content):
         'sorrow': 0
     }
 
-    # path = "./images/" + fileName
+    
     client = vision.ImageAnnotatorClient()
-
-    # with io.open(path, 'rb') as image_file:
-    #     content = image_file.read()
-
     image = types.Image(content = content)
-
     response = client.face_detection(image = image)
+    
+    # Get face emotions
     faces = response.face_annotations
 
+    # Compute emotion totals
     for face in faces:
         emotions['joy'] += face.joy_likelihood
         emotions['anger'] += face.anger_likelihood
         emotions['surprise'] += face.surprise_likelihood
         emotions['sorrow'] += face.sorrow_likelihood
     
-    #print(emotions)
-
-    # delete image after we use it.
-    #os.remove(path)
+   
     print(emotions)
 
     return emotions
