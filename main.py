@@ -18,7 +18,6 @@ search_map = {
 }
 
 
-
 @app.route("/sms", methods=['GET', 'POST'])
 def mms_reply():
 	"""Respond to incoming with a simple text message."""
@@ -41,7 +40,6 @@ def mms_reply():
 			if res[emotion] > maxValue:
 				emo = emotion
 				maxValue = res[emotion]
-
 			
 		search_list = search_map[emo][:]
 
@@ -52,13 +50,10 @@ def mms_reply():
 		
 		# Respond with a message
 		resp.message(get_playlist(search_query))
-		
 
 	# No message detected
 	else:
 		resp.message("Try sending a picture message.")
-
-	
 	
 	return str(resp)
 

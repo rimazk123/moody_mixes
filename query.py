@@ -3,10 +3,11 @@ import spotipy.util as util
 import spotipy.oauth2 as oauth2
 import json
 import random
+import os
 
 credentials = oauth2.SpotifyClientCredentials(
-        client_id='YOUR_ID_HERE',
-        client_secret='YOUR_SECRET_HERE')
+        client_id=os.environ['SPOTIFY_CLIENT_ID'],
+        client_secret='SPOTIFY_CLIENT_SECRET')
 
 token = credentials.get_access_token()
 spotify = spotipy.Spotify(auth=token)
@@ -15,7 +16,6 @@ spotify = spotipy.Spotify(auth=token)
 Returns a random playlist from set of 10, based on the search terms
 '''
 def get_playlist(searchQuery):
-    # spotify = spotipy.Spotify(auth=token)
     global credentials
     global token
     global spotify
@@ -32,9 +32,5 @@ def get_playlist(searchQuery):
         
     # Pick a result
     playlistIndex = random.randint(0, len(results['playlists']['items']) - 1)
-
     print(results['playlists']['items'][playlistIndex]['external_urls']['spotify'])
-
     return results['playlists']['items'][playlistIndex]['external_urls']['spotify']
-
-

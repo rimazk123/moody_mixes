@@ -6,7 +6,6 @@ import os
 likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
 
 
-
 def get_face_emotions(content):
     emotions = {
         'joy': 0,
@@ -14,7 +13,6 @@ def get_face_emotions(content):
         'surprise': 0,
         'sorrow': 0
     }
-
     
     client = vision.ImageAnnotatorClient()
     image = types.Image(content = content)
@@ -28,9 +26,5 @@ def get_face_emotions(content):
         emotions['joy'] += face.joy_likelihood
         emotions['anger'] += face.anger_likelihood
         emotions['surprise'] += face.surprise_likelihood
-        emotions['sorrow'] += face.sorrow_likelihood
-    
-   
-    print(emotions)
 
     return emotions
