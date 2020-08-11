@@ -17,7 +17,7 @@ python main.py
 ## Demonstration
 
 With an angry face:
-![Screenshot](anger.jpg)
+![Screenshot](anger.jpeg)
 
 With a sad face:
-![Screenshot](sad.jpg)
+![Screenshot](sad.jpeg)
